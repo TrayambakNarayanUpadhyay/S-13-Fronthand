@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETRA | Robot Mission Control</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="brand-logo">
+            <h1>NETRA</h1>
+            <p>ROBOT MISSION CONTROL</p>
+        </div>
+
+        <nav>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#fleet">Fleet</a>
+            <a href="#telemetry">Telemetry</a>
+        </nav>
+
+        <div class="header-right">
+            <div class="status">
+                <span class="online-dot"></span>
+                <span>SYSTEM ONLINE</span>
+            </div>
+
+            <strong id="clock">--:--:--</strong>
+        </div>
+
+    </header>
+
+    <script>
+        function updateClock() {
+            document.getElementById("clock").textContent =
+                new Date().toLocaleTimeString("en-IN", {
+                    hour12: false
+                });
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+
+</html>
