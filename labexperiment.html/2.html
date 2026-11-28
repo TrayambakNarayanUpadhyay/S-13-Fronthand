@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hospital services, care team, and patient appointment requests.">
+    <title>Patient Appointments | Greenfield Community Hospital</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --navy: #14324b;
+            --blue: #176b87;
+            --teal: #e7f4f3;
+            --ink: #20313d;
+            --muted: #526572;
+            --line: #c8d6dd;
+            --surface: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f3f7f8;
+            color: var(--ink);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #075d7b;
+        }
+
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        button:focus-visible {
+            outline: 3px solid #d27b00;
+            outline-offset: 3px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            z-index: 1;
+            padding: 0.65rem 1rem;
+            transform: translateY(-160%);
+            background: var(--surface);
+            color: var(--navy);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header {
+            background: var(--navy);
+            color: white;
+        }
+
+        .header-inner,
+        main,
+        .footer-inner {
+            width: min(68rem, 100%);
+            margin: 0 auto;
+            padding-right: 1.25rem;
+            padding-left: 1.25rem;
+        }
+
+        .header-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem 2rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .brand {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .site-nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.25rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .site-nav a {
+            color: white;
+            text-underline-offset: 0.2em;
+        }
+
+        main {
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+        }
+
+        .intro {
+            max-width: 48rem;
+            margin-bottom: 2rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--navy);
+            line-height: 1.25;
+        }
+
+        h1 {
+            margin-bottom: 0.5rem;
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+
+        h3 {
+            margin-bottom: 0.3rem;
+            font-size: 1.2rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.9fr);
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 0.75rem;
+            background: var(--surface);
+            padding: 1.5rem;
+        }
+
+        .service-list,
+        .doctor-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .doctor {
+            border-top: 1px solid var(--line);
+            padding-top: 0.75rem;
+        }
+
+        .doctor p,
+        .service p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .appointment {
+            grid-column: 1 / -1;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .field {
+            display: grid;
+            align-content: start;
+            gap: 0.3rem;
+        }
+
+        .field-full,
+        .form-note,
+        .submit-row {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 700;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            min-height: 2.8rem;
+            border: 1px solid #687c88;
+            border-radius: 0.35rem;
+            background: white;
+            color: var(--ink);
+            padding: 0.6rem 0.7rem;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 7rem;
+            resize: vertical;
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .required-note {
+            margin-top: 0;
+        }
+
+        button {
+            min-height: 2.8rem;
+            border: 0;
+            border-radius: 0.35rem;
+            background: #075d7b;
+            color: white;
+            padding: 0.65rem 1.1rem;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .site-footer {
+            background: var(--teal);
+            color: var(--navy);
+        }
+
+        .footer-inner {
+            padding-top: 1.2rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .footer-inner p {
+            margin: 0;
+        }
+
+        @media (max-width: 48rem) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 36rem) {
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .field-full,
+            .form-note,
+            .submit-row {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <p class="brand">Greenfield Community Hospital</p>
+            <nav class="site-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#doctors">Our doctors</a></li>
+                    <li><a href="#appointment">Request an appointment</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="intro" aria-labelledby="page-title">
+            <h1 id="page-title">Care that starts with listening</h1>
+            <p>Find a service, meet our care team, or request an appointment. Our staff will contact you to confirm a suitable time.</p>
+        </section>
+
+        <div class="content-grid">
+            <section class="panel" id="services" aria-labelledby="services-title">
+                <h2 id="services-title">Hospital services</h2>
+                <div class="service-list">
+                    <article class="service">
+                        <h3>Family medicine</h3>
+                        <p>Preventive care and ongoing support for adults and children.</p>
+                    </article>
+                    <article class="service">
+                        <h3>Cardiology</h3>
+                        <p>Heart health assessment, diagnosis, and treatment planning.</p>
+                    </article>
+                    <article class="service">
+                        <h3>Women’s health</h3>
+                        <p>Respectful care, wellness visits, and health screenings.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="panel" id="doctors" aria-labelledby="doctors-title">
+                <h2 id="doctors-title">Meet our doctors</h2>
+                <div class="doctor-list">
+                    <article class="doctor">
+                        <h3>Dr. Maya Patel</h3>
+                        <p>Family Medicine</p>
+                    </article>
+                    <article class="doctor">
+                        <h3>Dr. Daniel Brooks</h3>
+                        <p>Cardiology</p>
+                    </article>
+                    <article class="doctor">
+                        <h3>Dr. Aisha Rahman</h3>
+                        <p>Women’s Health</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="panel appointment" id="appointment" aria-labelledby="appointment-title">
+                <h2 id="appointment-title">Request an appointment</h2>
+                <p class="required-note">Fields marked <span aria-hidden="true">*</span> are required.</p>
+                <form action="#" method="get">
+                    <div class="field">
+                        <label for="full-name">Full name <span aria-hidden="true">*</span></label>
+                        <input id="full-name" name="fullName" type="text" autocomplete="name" required>
+                    </div>
+                    <div class="field">
+                        <label for="email">Email address <span aria-hidden="true">*</span></label>
+                        <input id="email" name="email" type="email" autocomplete="email" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone number <span aria-hidden="true">*</span></label>
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" aria-describedby="phone-hint" required>
+                        <span class="hint" id="phone-hint">Include your country or area code.</span>
+                    </div>
+                    <div class="field">
+                        <label for="service">Preferred service <span aria-hidden="true">*</span></label>
+                        <select id="service" name="service" required>
+                            <option value="">Choose a service</option>
+                            <option value="family-medicine">Family medicine</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="womens-health">Women’s health</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="appointment-date">Preferred date <span aria-hidden="true">*</span></label>
+                        <input id="appointment-date" name="appointmentDate" type="date" required>
+                    </div>
+                    <div class="field">
+                        <label for="appointment-time">Preferred time of day</label>
+                        <select id="appointment-time" name="appointmentTime">
+                            <option value="">No preference</option>
+                            <option value="morning">Morning</option>
+                            <option value="afternoon">Afternoon</option>
+                        </select>
+                    </div>
+                    <div class="field field-full">
+                        <label for="notes">Additional information <span class="hint">(optional; do not include sensitive medical details)</span></label>
+                        <textarea id="notes" name="notes" aria-describedby="notes-hint"></textarea>
+                        <span class="hint" id="notes-hint">Please do not use this form for emergencies. Call your local emergency number for urgent help.</span>
+                    </div>
+                    <p class="hint form-note">Submitting this request does not confirm an appointment. A staff member will contact you.</p>
+                    <div class="submit-row">
+                        <button type="submit">Send appointment request</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p>Greenfield Community Hospital · For urgent emergencies, contact local emergency services.</p>
+        </div>
+    </footer>
+</body>
+</html>
